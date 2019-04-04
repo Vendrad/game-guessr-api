@@ -1,5 +1,3 @@
-'use strict';
-
 const gameModes = [
   {id: 0, minYear: 1980, maxYear: 1989},
   {id: 1, minYear: 1990, maxYear: 1999},

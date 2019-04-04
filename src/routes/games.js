@@ -1,5 +1,3 @@
-'use strict';
-
 import express from 'express';
 import Controller from '../controllers/controller';
 import GamesController from '../controllers/games.controller';

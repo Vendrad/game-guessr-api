@@ -1,5 +1,3 @@
-'use strict';
-
 const Controller = SpecificController => {
 
   return async function(req, res, next) {

@@ -1,5 +1,3 @@
-'use strict';
-
 const whitelist = [
   'http://localhost:3000',
   'https://localhost:3000',

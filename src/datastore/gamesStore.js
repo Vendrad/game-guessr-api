@@ -1,5 +1,3 @@
-'use strict';
-
 import igdb from 'igdb-api-node';
 import { randBetweenInclusive } from '../helpers';
 

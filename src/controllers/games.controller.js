@@ -1,5 +1,3 @@
-'use strict';
-
 import gamesStore from '../datastore/gamesStore';
 import validator from 'validator';
 import gameModes from '../config/gamemodes.config';
