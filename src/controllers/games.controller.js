@@ -8,15 +8,9 @@ class GamesController {
 
   static async random (req) {
 
-    const decade = req.params.decade === undefined ? '4' : req.params.decade;
+    const [minYear, maxYear] = GamesController.getYearRange(req);
 
-    const possibleGameModes = gameModes.map(mode => { return mode.id; });
-
-    if (!validator.isInt(decade, possibleGameModes)) throw Error('Incorrect decade id.');
-
-    const gameMode = gameModes.find(mode => { return mode.id.toString() === decade });
-
-    const game = await games.random(gameMode.minYear, gameMode.maxYear);
+    const game = await games.random(minYear, maxYear);
 
     return game;
 
@@ -31,6 +25,24 @@ class GamesController {
     const games = await games.search(searchString, 5);
 
     return games;
+
+  }
+
+  static getYearRange(req) {
+
+    if (req.params.decade !== undefined) {
+
+      const possibleGameModes = gameModes.map(mode => { return mode.id; });
+
+      if (!validator.isInt(req.params.decade, possibleGameModes)) throw Error('Incorrect decade id.');
+
+      const gameMode = gameModes.find(mode => { return mode.id.toString() === req.params.decade });
+
+      return [gameMode.minYear, gameMode.maxYear];
+
+    }
+
+    return [1900, 2100];
 
   }
 
