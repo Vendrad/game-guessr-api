@@ -3,7 +3,7 @@
 import igdb from 'igdb-api-node';
 import { randBetweenInclusive } from '../helpers';
 
-class games {
+class gamesStore {
 
   /**
    * Retrieves a random game released in an inclusive year range
@@ -60,4 +60,4 @@ class games {
 
 }
 
-export default games;
+export default gamesStore;

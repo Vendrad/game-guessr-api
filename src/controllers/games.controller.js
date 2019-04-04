@@ -1,6 +1,6 @@
 'use strict';
 
-import games from '../datastore/games';
+import gamesStore from '../datastore/gamesStore';
 import validator from 'validator';
 import gameModes from '../config/gamemodes.config';
 
@@ -10,7 +10,7 @@ class GamesController {
 
     const [minYear, maxYear] = GamesController.getYearRange(req);
 
-    const game = await games.random(minYear, maxYear);
+    const game = await gamesStore.random(minYear, maxYear);
 
     return game;
 
@@ -22,7 +22,7 @@ class GamesController {
 
     const searchString = validator.escape(req.params.searchString);
 
-    const games = await games.search(searchString, 5);
+    const games = await gamesStore.search(searchString, 5);
 
     return games;
 
