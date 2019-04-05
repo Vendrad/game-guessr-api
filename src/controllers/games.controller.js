@@ -1,13 +1,18 @@
 import gamesStore from '../datastore/gamesStore';
 import validator from 'validator';
-import gameModes from '../config/gamemodes.config';
+import { getYearRange, getMaxYearRange } from '../app/gameMode/yearRange';
+import { yearRanges } from '../config/gameMode.config';
 
 class GamesController {
 
   static async random (req) {
 
-    const [minYear, maxYear] = GamesController.getYearRange(req);
-
+    const id = validator.toInt(req.params.decade);
+      
+    const [minYear, maxYear] = id === undefined
+      ? getYearRange(id, yearRanges)
+      : getMaxYearRange(id, yearRanges);
+      
     const game = await gamesStore.random(minYear, maxYear);
 
     return game;
@@ -23,24 +28,6 @@ class GamesController {
     const games = await gamesStore.search(searchString, 5);
 
     return games;
-
-  }
-
-  static getYearRange(req) {
-
-    if (req.params.decade !== undefined) {
-
-      const possibleGameModes = gameModes.map(mode => { return mode.id; });
-
-      if (!validator.isInt(req.params.decade, possibleGameModes)) throw Error('Incorrect decade id.');
-
-      const gameMode = gameModes.find(mode => { return mode.id.toString() === req.params.decade });
-
-      return [gameMode.minYear, gameMode.maxYear];
-
-    }
-
-    return [1900, 2100];
 
   }
 
