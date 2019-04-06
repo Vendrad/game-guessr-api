@@ -4,7 +4,7 @@
   "description": "API wrapper to api.igdb.com. Serving data to gg.raredevil.co.uk.",
   "main": "src/index.js",
   "scripts": {
-    "start-dev": "npx nodemon --exec npx babel-node src/index.js",
+    "start-dev": "npx nodemon --exec npx babel-node ./src/index.js",
     "test": "npx jest --watchAll"
   },
   "author": "",
@@ -18,7 +18,7 @@
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
-    "igdb-api-node": "^3.1.7",
+    "igdb-api-node": "github:igdb/igdb-api-node#v4",
     "validator": "^10.11.0"
   },
   "devDependencies": {

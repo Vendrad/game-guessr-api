@@ -1,6 +1,6 @@
 import gamesStore from '../datastore/gamesStore';
 import validator from 'validator';
-import { getYearRange, getMaxYearRange } from '../app/gameMode/yearRange';
+import { getYearRange, getMaxYearRange } from '../app/gameModes/yearRange';
 import { yearRanges } from '../config/gameMode.config';
 
 class GamesController {
@@ -9,9 +9,9 @@ class GamesController {
 
     const id = validator.toInt(req.params.decade);
       
-    const [minYear, maxYear] = id === undefined
+    const [minYear, maxYear] = id !== undefined
       ? getYearRange(id, yearRanges)
-      : getMaxYearRange(id, yearRanges);
+      : getMaxYearRange(yearRanges);
       
     const game = await gamesStore.random(minYear, maxYear);
 
