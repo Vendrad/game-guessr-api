@@ -3,6 +3,8 @@ import https from 'https';
 import 'dotenv/config';
 import routes from './routes';
 
+console.log('We are in: ' + process.env.NODE_ENV);
+
 const app = express();
 const port = 3080;
 
