@@ -9,6 +9,22 @@ Testing: Jest
 
 # Installation
 
-copy/move .env.example to .env and set the environment variables as required
+Copy and edit env file, setting the environment variables as required.
 
-run ```npm-install```
+'''cp .env.example .env```
+
+- Run
+
+```npm-install```
+
+use --only=prod for production
+
+- Serve for production
+
+Will build the app for production and serve
+
+```npm run serve```
+
+- Run for development
+
+```npm run start-dev```
