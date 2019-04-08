@@ -5,14 +5,24 @@ import { yearRanges } from '../config/gameMode.config';
 
 class GamesController {
 
-  static async random (req) {
+  static async randomFromDecade (req) {
 
     const id = validator.toInt(req.params.decade);
+
+    if (id === undefined) return;
+
+    const [minYear, maxYear] = getYearRange(id, yearRanges);
       
-    const [minYear, maxYear] = id !== undefined
-      ? getYearRange(id, yearRanges)
-      : getMaxYearRange(yearRanges);
-      
+    const game = await gamesStore.random(minYear, maxYear);
+
+    return game;
+
+  }
+
+  static async random () {
+
+    const [minYear, maxYear] = getMaxYearRange(yearRanges);
+
     const game = await gamesStore.random(minYear, maxYear);
 
     return game;
