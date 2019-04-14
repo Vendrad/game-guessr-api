@@ -9,38 +9,32 @@ const yearRanges = [
 ];
 
 describe("yearRange.getYearRange", () => {
+  
   it("Should return [2000, 2009] when decade id is 2.", () => {
     expect(getYearRange(2, yearRanges)).toEqual([2000, 2009]);
   });
-});
 
-describe("yearRange.getYearRange", () => {
   it("Should return [1990, 1999] when decade id is the string '1'.", () => {
     expect(getYearRange('1', yearRanges)).toEqual([1990, 1999]);
   });
-});
-
-describe("yearRange.getYearRange", () => {
+  
   it("Should throw an error when id is not an int", () => {
     expect(() => {getYearRange(NaN, yearRanges)}).toThrowError('YearRangeId is not an int.');
     expect(() => {getYearRange(null, yearRanges)}).toThrowError('YearRangeId is not an int.');
     expect(() => {getYearRange(undefined, yearRanges)}).toThrowError('YearRangeId is not an int.');
   });
-});
-
-describe("yearRange.getYearRange", () => {
+  
   it("Should throw an error when id is an int/number out of range.", () => {
     expect(() => {getYearRange(5, yearRanges)}).toThrowError('YearRangeId does not match a year range.');
   });
 });
 
 describe("yearRange.getMaxYearRange", () => {
+
   it("Should return [1980, 2019] when yearRanges have those years as min/max possibilities.", () => {
     expect(getMaxYearRange(yearRanges)).toEqual([1980, 2019]);
   });
-});
-
-describe("yearRange.getMaxYearRange", () => {
+  
   it("Should still return [1980, 2019] even when yearRanges is out of order.", () => {
     const yearRanges = [
       {id: 2, minYear: 1990, maxYear: 1999},
@@ -50,4 +44,5 @@ describe("yearRange.getMaxYearRange", () => {
     ];
     expect(getMaxYearRange(yearRanges)).toEqual([1980, 2019]);
   });
+
 });

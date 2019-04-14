@@ -5,6 +5,11 @@ const whitelist = [
   'https://gg.raredevil.co.uk'
 ];
 
+/**
+ * Sets cors configuration for the response
+ * 
+ * If the origin domain is not in the whitelist then throw an error
+ */
 const corsConfig = {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -12,6 +17,7 @@ const corsConfig = {
     } else {
       callback(new Error('Origin (' + origin + ') is not allowed by CORS.'))
     }
+    
   }  
 }
 

@@ -7,6 +7,7 @@
     "start": "node ./build",
     "start-dev": "npx nodemon --exec npx babel-node ./src/index.js",
     "test": "npx jest --watchAll",
+    "test-coverage": "npx jest --colors --coverage",
     "build-clean": "rm -rf build && mkdir build",
     "build": "npm run build-clean && npx babel ./src -d ./build -s",
     "serve": "npm run build && npm start"
@@ -32,7 +33,12 @@
   },
   "devDependencies": {
     "babel-jest": "^24.7.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.1",
+    "eslint-plugin-prettier": "^3.0.1",
     "jest": "~24.7.1",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "prettier": "^1.17.0"
   }
 }
