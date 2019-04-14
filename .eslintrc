@@ -7,5 +7,6 @@
     "airbnb-base"
   ],
   "rules": {
+    "no-console": "off"
   }
 }

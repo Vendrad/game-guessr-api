@@ -1,11 +1,22 @@
 import express from 'express';
-import Controller from '../controllers/controller';
-import GamesController from '../controllers/games.controller';
+import AsyncController from '../core/controller/AsyncController';
+import GamesController from '../controllers/GamesController';
 
 const router = express.Router();
 
-router.get('/games/random/', Controller(GamesController.random));
-router.get('/games/random/:decade', Controller(GamesController.randomFromDecade));
-router.get('/games/search/:searchString', Controller(GamesController.search));
+/**
+ * All routes defined for /games
+ *
+ * AsyncController wraps controllers that have asynchronous functionality.
+ */
+router.get('/games/random/', AsyncController(GamesController.random));
+router.get(
+  '/games/random/:decade',
+  AsyncController(GamesController.randomFromDecade),
+);
+router.get(
+  '/games/search/:searchString',
+  AsyncController(GamesController.search),
+);
 
 export default router;

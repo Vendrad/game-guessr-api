@@ -3,28 +3,41 @@ import fs from 'fs';
 import http from 'http';
 import https from 'https';
 import 'dotenv/config';
-import routes from './routes';
+import routes from './core/routes';
+import log from './core/logging/Logger';
 
-console.log('We are in: ' + process.env.NODE_ENV);
+log(`We are in: ${process.env.NODE_ENV}`);
 
-const app = express();
+// Port values from configuration
 const port = process.env.PORT;
-const port_ssl = process.env.PORT_SSL;
+const portSSL = process.env.PORT_SSL;
 
-app.use(express.static(process.env.STATIC_FILES_PATH, { dotfiles: 'allow' } ))
+// Start express
+const app = express();
 
+// Allow static files
+app.use(express.static(process.env.STATIC_FILES_PATH, { dotfiles: 'allow' }));
+
+// Load core routes file
 routes(app);
 
+// Initialise non SSL listener
 http.createServer(app).listen(port, () => {
-  console.log(`Listening on port ${port}.`)
+  log(`Listening on port ${port}.`);
 });
 
+// Initialise SSL listener
 if (process.env.SSL_PATH_TO_KEY !== '') {
-  https.createServer({
-    key: fs.readFileSync(process.env.SSL_PATH_TO_KEY),
-    cert: fs.readFileSync(process.env.SSL_PATH_TO_CERT),
-    ca: fs.readFileSync(process.env.SSL_PATH_TO_CHAIN)
-  }, app).listen(port_ssl, () => {
-    console.log(`Listening on SSL port ${port_ssl}.`)
-  });
+  https
+    .createServer(
+      {
+        key: fs.readFileSync(process.env.SSL_PATH_TO_KEY),
+        cert: fs.readFileSync(process.env.SSL_PATH_TO_CERT),
+        ca: fs.readFileSync(process.env.SSL_PATH_TO_CHAIN),
+      },
+      app,
+    )
+    .listen(portSSL, () => {
+      log(`Listening on SSL port ${portSSL}.`);
+    });
 }
