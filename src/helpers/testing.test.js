@@ -20,3 +20,27 @@ describe('TestingHelpers : mockCR()', () => {
     expect(catchError).toThrow();
   });
 });
+
+describe('TestingHelpers : asyncError()', () => {
+  const fn = async (error) => {
+    if (error) throw Error('Error was thrown.');
+  };
+
+  const errorChecker = async () => fn(true);
+  const noErrorChecker = async () => fn(false);
+
+  it('should return null if there is no error.', async () => {
+    const response = await Helpers.asyncError(noErrorChecker);
+    expect(response).toEqual(null);
+  });
+
+  it('should catch and return the error if there is an error.', async () => {
+    const response = await Helpers.asyncError(errorChecker);
+    expect(response).toEqual(Error('Error was thrown.'));
+  });
+
+  it('should throw TypeError error if the paramter is not a function.', async () => {
+    const response = await Helpers.asyncError();
+    expect(response).toEqual(TypeError('fn is not a function'));
+  });
+});
