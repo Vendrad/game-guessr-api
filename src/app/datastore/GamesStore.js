@@ -1,17 +1,17 @@
 import igdb from 'igdb-api-node';
-import { randBetweenInclusive } from '../../helpers';
 
 /**
  * IGDB wrapper to make specific API calls
  */
 class GamesStore {
   /**
-   * Retrieves a random game released in an inclusive year range
+   * Retrieves the count of games released in an
+   * inclusive year range that have a storyline.
    *
    * @param {int} minYear
    * @param {int} maxYear
    */
-  static async random(minYear, maxYear) {
+  static async count(minYear, maxYear) {
     // Filter criteria for the search
     const filter = [
       `y >=${minYear}`,
@@ -29,9 +29,31 @@ class GamesStore {
     if (
       countResponse.data.count === undefined
       || countResponse.data.count === 0
-    ) throw Error('Could not find any games.');
+    ) {
+      throw Error('Could not find any games.');
+    }
 
-    // Utilise the number of games to pull back one specific game at random using offset
+    return countResponse.data.count;
+  }
+
+  /**
+   * Retrieves a game with a storyline, released
+   * in an inclusive year range at a specific offset
+   *
+   * @param {int} minYear
+   * @param {int} maxYear
+   * @param {int} offset range 0-(count(games) - 1)
+   */
+  static async offset(minYear, maxYear, offset) {
+    // Filter criteria for the search
+    const filter = [
+      `y >=${minYear}`,
+      `y <=${maxYear}`,
+      'game.storyline != null',
+      'game.category = 0',
+    ];
+
+    // Utilise the offset to pull back a game with the given criteria
     const response = await igdb()
       .fields([
         'id',
@@ -42,11 +64,13 @@ class GamesStore {
       ])
       .where(filter)
       .limit(1)
-      .offset(randBetweenInclusive(0, countResponse.data.count - 1))
+      .offset(offset)
       .request('release_dates');
 
-    // If the store changed between getting the count and retrieving a game, throw an error
-    if (response.data.length !== 1) throw Error('Could not retrieve a single game.');
+    // If there is nothing available at the offset, throw an error
+    if (response.data.length !== 1) {
+      throw Error('Could not retrieve a single game.');
+    }
 
     // Return the game object
     return response.data[0];

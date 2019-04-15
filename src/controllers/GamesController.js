@@ -2,6 +2,7 @@ import validator from 'validator';
 import gamesStore from '../app/datastore/GamesStore';
 import { getYearRange, getMaxYearRange } from '../app/gameModes/yearRange';
 import yearRanges from '../config/gamemodes.config';
+import { randBetweenInclusive } from '../helpers';
 
 /**
  * GamesController
@@ -10,8 +11,7 @@ import yearRanges from '../config/gamemodes.config';
  */
 class GamesController {
   /**
-   * Returns a random game using the given decade id to
-   * ensure the game's release was in the bounds of that decade
+   * Returns a random game the year bounds stipulated by decade ID
    *
    * @param {*} req
    */
@@ -22,18 +22,26 @@ class GamesController {
 
     const [minYear, maxYear] = getYearRange(id, yearRanges);
 
-    const game = await gamesStore.random(minYear, maxYear);
+    const gamesCount = await gamesStore.count(minYear, maxYear);
+
+    const offset = randBetweenInclusive(0, gamesCount - 1);
+
+    const game = await gamesStore.offset(minYear, maxYear, offset);
 
     return game;
   }
 
   /**
-   * Return a random game using the lower and upper year bounds
+   * Return a random game using the min and max year bounds
    */
   static async random() {
     const [minYear, maxYear] = getMaxYearRange(yearRanges);
 
-    const game = await gamesStore.random(minYear, maxYear);
+    const gamesCount = await gamesStore.count(minYear, maxYear);
+
+    const offset = randBetweenInclusive(0, gamesCount - 1);
+
+    const game = await gamesStore.offset(minYear, maxYear, offset);
 
     return game;
   }

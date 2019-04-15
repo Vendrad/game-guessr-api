@@ -1,10 +1,10 @@
 import AsyncController from './AsyncController';
 
-const SpecificController = jest
-  .fn()
-  .mockImplementation(req => (req
-    ? Promise.resolve('view')
-    : Promise.reject(new Error('Error in Controller.'))));
+const SpecificController = jest.fn().mockImplementation(
+  req => new Promise((resolve, reject) => {
+    process.nextTick(() => (req ? resolve('view') : reject(new Error('Error in Controller.'))));
+  }),
+);
 
 const defaults = {
   req: 'The request',
@@ -27,8 +27,9 @@ describe('AsyncController', () => {
 
   it('should return the return of send if there are no errors.', async () => {
     const { req, res, next } = defaults;
-    const response = await AsyncController(SpecificController)(req, res, next);
-    expect(response).toEqual('SendReturn');
+    await expect(
+      AsyncController(SpecificController)(req, res, next),
+    ).resolves.toEqual('SendReturn');
   });
 
   it('should pass any errors to next.', async () => {
