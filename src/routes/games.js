@@ -10,10 +10,12 @@ const router = express.Router();
  * AsyncController wraps controllers that have asynchronous functionality.
  */
 router.get('/games/random/', AsyncController(GamesController.random));
+
 router.get(
   '/games/random/:decade',
   AsyncController(GamesController.randomFromDecade),
 );
+
 router.get(
   '/games/search/:searchString',
   AsyncController(GamesController.search),

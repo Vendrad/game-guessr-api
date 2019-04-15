@@ -11,10 +11,6 @@ const callFunction = ({ origin, callback }) => {
 };
 
 describe('CorsConfig', () => {
-  beforeEach(() => {});
-
-  afterEach(() => {});
-
   it('should fire the callback with no errors if the whitelist contains origin.', () => {
     whitelist.default = [defaults.origin];
     callFunction(defaults);
