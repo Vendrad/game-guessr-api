@@ -6,8 +6,6 @@ import 'dotenv/config';
 import routes from './core/routes';
 import log from './core/logging/Logger';
 
-log(`We are in: ${process.env.NODE_ENV}`);
-
 // Port values from configuration
 const port = process.env.PORT;
 const portSSL = process.env.PORT_SSL;
@@ -23,7 +21,7 @@ routes(app);
 
 // Initialise non SSL listener
 http.createServer(app).listen(port, () => {
-  log(`Listening on port ${port}.`);
+  log(`Env: ${process.env.NODE_ENV} - Listening on port ${port}.`);
 });
 
 // Initialise SSL listener
@@ -38,6 +36,8 @@ if (process.env.SSL_PATH_TO_KEY !== '') {
       app,
     )
     .listen(portSSL, () => {
-      log(`Listening on SSL port ${portSSL}.`);
+      log(`Env: ${process.env.NODE_ENV} - Listening on SSL port ${portSSL}.`);
     });
 }
+
+export default app;
